@@ -38,15 +38,15 @@ passwd root
 # Bootloader
 bootctl install
 
-echo "default arch.conf" >/boot/loader/loader.conf
-echo "timeout 0" >>/boot/loader/loader.conf
-echo "editor no" >>/boot/loader/loader.conf
+echo "default arch.conf" > /boot/loader/loader.conf
+echo "timeout 0" >> /boot/loader/loader.conf
+echo "editor no" >> /boot/loader/loader.conf
 
-echo "title\tArch Linux" >/boot/loader/entries/arch.conf
-echo "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
-echo "initrd\t/amd-ucode.img" >>/boot/loader/entries/arch.conf
-echo "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >>/boot/loader/entries/arch.conf
+echo "title\tArch Linux" > /boot/loader/entries/arch.conf
+echo "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
+echo "initrd\t/amd-ucode.img" >> /boot/loader/entries/arch.conf
+echo "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
+echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >> /boot/loader/entries/arch.conf
 
 # Add user
 useradd -m -G wheel -s /bin/zsh $LUKAUSER
