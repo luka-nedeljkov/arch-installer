@@ -34,7 +34,7 @@ swapon $SWAP
 pacstrap -K /mnt amd-ucode base base-devel git linux linux-firmware linux-headers neovim openssh zsh
 
 # Congifure /mnt/etc/fstab
-genfstab -U /mnt >>/mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 sed 's/fmask=0022/fmask=0137/' /mnt/etc/fstab
 sed 's/dmask=0022/dmask=0027/' /mnt/etc/fstab
 
