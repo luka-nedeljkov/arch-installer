@@ -8,7 +8,7 @@ mount /boot
 # Configure pacman
 sed -i 's/#Color/Color/' /etc/pacman.conf
 sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
-sed -i 's/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
+sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
 pacman -Syyuu
