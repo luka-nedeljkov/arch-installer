@@ -42,11 +42,11 @@ echo "default arch.conf" > /boot/loader/loader.conf
 echo "timeout 0" >> /boot/loader/loader.conf
 echo "editor no" >> /boot/loader/loader.conf
 
-echo "title\tArch Linux" > /boot/loader/entries/arch.conf
-echo "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
-echo "initrd\t/amd-ucode.img" >> /boot/loader/entries/arch.conf
-echo "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
-echo "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >> /boot/loader/entries/arch.conf
+echo -e "title\tArch Linux" > /boot/loader/entries/arch.conf
+echo -e "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
+echo -e "initrd\t/amd-ucode.img" >> /boot/loader/entries/arch.conf
+echo -e "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
+echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >> /boot/loader/entries/arch.conf
 
 # Add user
 useradd -m -G wheel -s /bin/zsh $LUKAUSER
