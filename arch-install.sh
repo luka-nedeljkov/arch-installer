@@ -14,7 +14,7 @@ clear
 echo "Install environment"
 echo "(v) Virtual machine"
 echo "(p) Physical hardware"
-read -rp "Choice (v/P): " choice
+read -rp "Choice (P/v): " choice
 
 nvme() {
     DRIVE=$NVME_DRIVE
@@ -32,9 +32,21 @@ vm() {
     HOME=$VM_HOME
 }
 
-if [ -n "$choice" ];
-then
-    
+while true;
+    case $choice in
+        "P"|"")
+            nvme()
+            break;
+            ;;
+        "V")
+            vm()
+            break;
+            ;;
+        *)
+            echo "Think again."
+            ;;
+    esac
+do
 
 # Zap and partition drives
 echo "Start partitioning"
