@@ -53,9 +53,9 @@ useradd -m -G wheel -s /bin/zsh $LUKAUSER
 passwd luka
 chfn luka
 
-echo "\n" | sudo EDITOR="tee -a" visudo
+echo -e "\n" | sudo EDITOR="tee -a" visudo
 echo "%wheel ALL=(ALL:ALL) ALL" | sudo EDITOR="tee -a" visudo
-echo "\n" | sudo EDITOR="tee -a" visudo
+echo -e "\n" | sudo EDITOR="tee -a" visudo
 echo "Defaults rootpw" | sudo EDITOR="tee -a" visudo
 
 # Remove script and exit chroot
