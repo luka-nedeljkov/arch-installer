@@ -4,9 +4,6 @@
 source arch-install.conf
 set -e
 
-# Update pacman
-pacman -Syyuu
-
 # Set time
 #timedatelctl set-ntp true
 
