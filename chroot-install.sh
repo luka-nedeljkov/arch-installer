@@ -10,13 +10,13 @@ sed -i 's/#Color/Color/' /etc/pacman.conf
 sed -i 's/#ParallelDownloads=5/ParallelDownloads=5/' /etc/pacman.conf
 sed -i 's/#ILoveCandy/ILoveCandy/' /etc/pacman.conf
 sed -i 's/#[multilib]/[multilib]/' /etc/pacman.conf
-sed -i '/[multilib]/{n; s_#Include = /etc/pacman.d/mirrorlist_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
+sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
 pacman -Syyuu
 
 # Locale
-echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
-echo "LANG=en_US.UTF-8" >/etc/locale.conf
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 # Timezone
 ln -sf /usr/share/zoneinfo/Europe/Belgrade /etc/localtime
@@ -27,7 +27,7 @@ systemctl enable fstrim.timer
 
 # Network
 read -rp "Hostname: " hostname
-echo $hostname >/etc/hostname
+echo $hostname > /etc/hostname
 pacman -Syu networkmanager
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
