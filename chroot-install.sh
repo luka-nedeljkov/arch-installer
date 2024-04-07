@@ -1,5 +1,5 @@
 # Source config
-source arch-install.conf
+source /arch-install.conf
 
 # Remount esp
 umount /boot
