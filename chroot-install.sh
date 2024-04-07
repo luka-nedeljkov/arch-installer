@@ -51,7 +51,7 @@ echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >> /boot/
 # Add user
 useradd -m -G wheel -s /bin/zsh $LUKAUSER
 passwd luka
-chfn luka
+chfn -f Luka luka
 
 echo -e "\n" | sudo EDITOR="tee -a" visudo
 echo "%wheel ALL=(ALL:ALL) ALL" | sudo EDITOR="tee -a" visudo
