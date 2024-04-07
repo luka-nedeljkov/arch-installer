@@ -32,8 +32,8 @@ pacstrap -K /mnt amd-ucode base base-devel git linux linux-firmware linux-header
 
 # Congifure /mnt/etc/fstab
 genfstab -U /mnt >> /mnt/etc/fstab
-sed 's/fmask=0022/fmask=0137/' /mnt/etc/fstab
-sed 's/dmask=0022/dmask=0027/' /mnt/etc/fstab
+sed -i 's/fmask=0022/fmask=0137/' /mnt/etc/fstab
+sed -i 's/dmask=0022/dmask=0027/' /mnt/etc/fstab
 
 # Prepare chroot
 cp arch-install.conf /mnt/arch-install.conf
