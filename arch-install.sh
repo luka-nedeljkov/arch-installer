@@ -4,49 +4,30 @@
 echo "Loading config"
 source arch-install.conf
 set -e
-sleep 3s
-clear
 
 # Set time
 #timedatelctl set-ntp true
 
 # Choose drive
-echo "Install environment"
-echo "(v) Virtual machine"
-echo "(p) Physical hardware"
-read -rp "Choice (P/v): " choice
-
-nvme() {
-    DRIVE=$NVME_DRIVE
-    ESP=$NVME_ESP
-    SWAP=$NVME_SWAP
-    ROOT=$NVME_ROOT
-    HOME=$NVME_HOME
-}
-
-vm() {
-    DRIVE=$VM_DRIVE
-    ESP=$VM_ESP
-    SWAP=$VM_SWAP
-    ROOT=$VM_ROOT
-    HOME=$VM_HOME
-}
-
-while true;
-    case $choice in
-        "P"|"")
-            nvme()
-            break;
-            ;;
-        "V")
-            vm()
-            break;
-            ;;
-        *)
-            echo "Think again."
-            ;;
-    esac
-do
+read -rp "Are you installing in a virtual machine? [y/N] " choice
+case "$choice" in
+[yY])
+	DRIVE=$VM_DRIVE
+	ESP=$VM_ESP
+	SWAP=$VM_SWAP
+	ROOT=$VM_ROOT
+	HOME=$VM_HOME
+	;;
+*)
+	DRIVE=$NVME_DRIVE
+	ESP=$NVME_ESP
+	SWAP=$NVME_SWAP
+	ROOT=$NVME_ROOT
+	HOME=$NVME_HOME
+	;;
+esac
+sleep 3s
+clear
 
 # Zap and partition drives
 echo "Start partitioning"
@@ -56,8 +37,6 @@ sgdisk -n 0:0:+1G -t 0:ef00 -c 0:"esp" $DRIVE
 sgdisk -n 0:0:+${RAMSIZE}G -t 0:8200 -c 0:"swap" $DRIVE
 sgdisk -n 0:0:+48G -t 0:8300 -c 0:"root" $DRIVE
 sgdisk -n 0:0:0 -t 0:8300 -c 0:"home" $DRIVE
-sleep 3s
-clear
 
 # Format partitions
 echo "Start partition formatting"
@@ -65,8 +44,6 @@ mkfs.fat -n esp -F32 $ESP
 mkfs.ext4 $ROOT
 mkfs.ext4 $HOME
 mkswap $SWAP
-sleep 3s
-clear
 
 # Mount partitions
 echo "Mounting partitions"
@@ -103,23 +80,9 @@ clear
 # Unmount and reboot
 echo "Unmounting all drives"
 umount -R /mnt
-sleep 3s
-clear
 
-echo -e "
-__________________________________________________________________________________________________________
-|                                            THANKS FOR USING                                             |
-|---------------------------------------------------------------------------------------------------------|
-|                                                                                                         |
-| █████  ██████   ██████ ██   ██     ██ ███    ██ ███████ ████████  █████  ██      ██      ███████ ██████ |
-|██   ██ ██   ██ ██      ██   ██     ██ ████   ██ ██         ██    ██   ██ ██      ██      ██      ██   ██|
-|███████ ██████  ██      ███████     ██ ██ ██  ██ ███████    ██    ███████ ██      ██      █████   ██████ |
-|██   ██ ██   ██ ██      ██   ██     ██ ██  ██ ██      ██    ██    ██   ██ ██      ██      ██      ██   ██|
-|██   ██ ██   ██  ██████ ██   ██     ██ ██   ████ ███████    ██    ██   ██ ███████ ███████ ███████ ██   ██|
-|                                                                                                         |
-|---------------------------------------------------------------------------------------------------------|
-|                                         Installation complete!                                          |
-|---------------------------------------------------------------------------------------------------------|
-"
-echo ""
+# Reboot
+echo "Installation complete!"
+echo "Rebooting in 10s"
+sleep 10s
 reboot
