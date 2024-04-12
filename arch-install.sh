@@ -35,8 +35,8 @@ sgdisk -n 0:0:0 -t 0:8300 -c 0:"home" $DRIVE
 # Format partitions
 echo "Formatting partitions"
 mkfs.fat -n esp -F32 $ESP
-mkfs.ext4 $ROOT
-mkfs.ext4 $HOME
+mkfs.ext4 -F $ROOT
+mkfs.ext4 -F $HOME
 mkswap $SWAP
 
 # Mount partitions
