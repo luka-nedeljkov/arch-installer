@@ -1,6 +1,20 @@
 # Source config
-echo "Loading config"
 source /arch-install.conf
+
+# Detect VM and define drives
+if cat /proc/cpuinfo | grep -q "hypervisor"; then
+	DRIVE=$VM_DRIVE
+	ESP=$VM_ESP
+	SWAP=$VM_SWAP
+	ROOT=$VM_ROOT
+	HOME=$VM_HOME
+else
+	DRIVE=$NVME_DRIVE
+	ESP=$NVME_ESP
+	SWAP=$NVME_SWAP
+	ROOT=$NVME_ROOT
+	HOME=$NVME_HOME
+fi
 
 # Remount esp
 echo "Remounting ESP"
@@ -15,7 +29,7 @@ sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
 pacman -Syyuu
-sleep 3s
+sleep 1s
 clear
 
 # Locale
@@ -28,7 +42,7 @@ echo "LANG=en_US.UTF-8" >/etc/locale.conf
 echo "Setting timezone"
 ln -sf /usr/share/zoneinfo/Europe/Belgrade /etc/localtime
 hwclock --systohc
-sleep 3s
+sleep 1s
 clear
 
 # Enable fstrim
@@ -42,11 +56,13 @@ echo $hostname >/etc/hostname
 pacman -Syu networkmanager
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
+sleep 1s
+clear
 
 # Root password
-echo "Change root password"
+echo "Root password"
 passwd root
-sleep 3s
+sleep 1s
 clear
 
 # Bootloader
@@ -62,24 +78,22 @@ echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/amd-ucode.img" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
 echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >>/boot/loader/entries/arch.conf
-sleep 3s
+sleep 1s
 clear
 
 # Add user
-echo "Adding user"
-useradd -m -G wheel -s /bin/zsh $LUKAUSER
-passwd luka
-chfn -f Luka luka
+echo "Adding user: $USER"
+useradd -m -G wheel -s /bin/zsh $USER
+passwd $USER
+chfn -f $(echo $USER | sed 's/.*/\u&/') $USER
 
-echo "Adding user to sudoers"
-echo -e "\n" | sudo EDITOR="tee -a" visudo
-echo "%wheel ALL=(ALL:ALL) ALL" | sudo EDITOR="tee -a" visudo
-echo -e "\n" | sudo EDITOR="tee -a" visudo
-echo "Defaults rootpw" | sudo EDITOR="tee -a" visudo
+echo "Adding $USER to sudoers"
+echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/$USER
+echo "Defaults rootpw" >/etc/sudoers.d/$USER
 
 # Remove script and exit chroot
 echo "Removing script and exiting chroot"
 rm /arch-install.conf
 rm /chroot-install.sh
-sleep 3s
+sleep 1s
 exit
