@@ -89,7 +89,7 @@ chfn -f $(echo $USER | sed 's/.*/\u&/') $USER
 
 echo "Adding $USER to sudoers"
 echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/$USER
-echo "Defaults rootpw" >/etc/sudoers.d/$USER
+echo "Defaults rootpw" >>/etc/sudoers.d/$USER
 
 # Remove script and exit chroot
 echo "Removing script and exiting chroot"
