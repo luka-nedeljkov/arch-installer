@@ -53,7 +53,7 @@ systemctl enable fstrim.timer
 echo "Configuring network"
 read -rp "Hostname: " hostname
 echo $hostname >/etc/hostname
-pacman -Syu networkmanager
+pacman -Syu --noconfirm networkmanager
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
 sleep 1s
