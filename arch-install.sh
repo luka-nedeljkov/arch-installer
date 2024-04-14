@@ -70,7 +70,6 @@ cp arch-install.conf /mnt/arch-install.conf
 cp chroot-install.sh /mnt/chroot-install.sh
 chmod +x /mnt/chroot-install.sh
 arch-chroot /mnt ./chroot-install.sh
-#clear
 
 # Unmount and reboot
 echo "Unmounting all drives"
