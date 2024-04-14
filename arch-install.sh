@@ -34,7 +34,7 @@ read -rsp $'Press any key to continue...\n' -n 1
 
 # Format partitions
 echo "Formatting partitions"
-mkfs.fat -n esp -F32 $ESP
+mkfs.fat -F32 $ESP
 mkfs.ext4 -F $ROOT
 mkfs.ext4 -F $HOME
 mkswap $SWAP
