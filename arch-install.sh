@@ -70,6 +70,12 @@ umount -R /mnt
 
 # Reboot
 echo "Installation complete!"
+
+read -rp "Do you wish to download the post-install scripts? (y/N)" choice
+if [[ "$choice" == [Yy] ]]; then
+	git clone https://github.com/luka-nedeljkov/arch-installer /mnt/home/$USER
+fi
+
 read -rsp $'Press any key to reboot...\n' -n 1
 #echo "Rebooting in 5s"
 #sleep 5s
