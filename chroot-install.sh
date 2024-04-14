@@ -28,13 +28,12 @@ sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
-pacman -Syyuu
+pacman -Syyuu --noconfirm zsh
 read -rsp $'Press any key to continue...\n' -n 1
 #sleep 1s
 clear
 
 # Locale
-echo "Generating locale"
 echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" >/etc/locale.conf
@@ -54,7 +53,7 @@ systemctl enable fstrim.timer
 # Network
 echo "Configuring network"
 echo $HOSTNAME >/etc/hostname
-pacman -Syu --noconfirm networkmanager
+pacman -S --noconfirm networkmanager
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
 read -rsp $'Press any key to continue...\n' -n 1
@@ -91,15 +90,14 @@ useradd -m -G wheel -s /bin/zsh $USER
 passwd $USER
 chfn -f $(echo $USER | sed 's/.*/\u&/') $USER
 
-echo "Adding $USER to sudoers"
 echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/$USER
 echo "Defaults rootpw" >>/etc/sudoers.d/$USER
 
 # Remove script and exit chroot
-echo "Removing script and exiting chroot"
 rm /arch-install.conf
 rm /pkg-list.txt
 rm /chroot-install.sh
 read -rsp $'Press any key to continue...\n' -n 1
 #sleep 1s
+clear
 exit

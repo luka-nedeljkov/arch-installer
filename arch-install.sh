@@ -73,9 +73,7 @@ cp pkg-list.txt /mnt/pkg-list.txt
 cp chroot-install.sh /mnt/chroot-install.sh
 chmod +x /mnt/chroot-install.sh
 arch-chroot /mnt ./chroot-install.sh
-read -rsp $'Press any key to continue...\n' -n 1
-#sleep 1s
-clear
+#clear
 
 # Unmount and reboot
 echo "Unmounting all drives"
