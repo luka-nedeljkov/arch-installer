@@ -51,7 +51,6 @@ read -rsp $'Press any key to continue...\n' -n 1
 clear
 
 # Install base system
-echo "Installing base system"
 pacstrap -K /mnt amd-ucode base base-devel linux linux-firmware linux-headers
 read -rsp $'Press any key to continue...\n' -n 1
 #sleep 1s
@@ -67,9 +66,7 @@ read -rsp $'Press any key to continue...\n' -n 1
 clear
 
 # Prepare chroot
-echo "Preparing for chroot"
 cp arch-install.conf /mnt/arch-install.conf
-cp pkg-list.txt /mnt/pkg-list.txt
 cp chroot-install.sh /mnt/chroot-install.sh
 chmod +x /mnt/chroot-install.sh
 arch-chroot /mnt ./chroot-install.sh

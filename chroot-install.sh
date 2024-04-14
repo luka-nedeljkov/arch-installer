@@ -47,7 +47,7 @@ read -rsp $'Press any key to continue...\n' -n 1
 clear
 
 # Enable fstrim
-echo "Enabling fstrim.timer systemd service"
+echo "Enabling fstrim.timer service"
 systemctl enable fstrim.timer
 
 # Network
