@@ -25,7 +25,6 @@ fi
 
 # Unmounting partitions
 echo "Setting up partitions"
-umount -R /mnt
 swapoff $SWAP
 
 # Zap and partition drives
