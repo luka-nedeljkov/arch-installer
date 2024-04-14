@@ -24,24 +24,20 @@ else
 fi
 
 # Zap and partition drives
-echo "Partitioning drives"
+echo "Setting up partitions"
 sgdisk -Z $DRIVE
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:"esp" $DRIVE
 sgdisk -n 0:0:+${SWAP_SIZE}G -t 0:8200 -c 0:"swap" $DRIVE
 sgdisk -n 0:0:+48G -t 0:8300 -c 0:"root" $DRIVE
 sgdisk -n 0:0:0 -t 0:8300 -c 0:"home" $DRIVE
-read -rsp $'Press any key to continue...\n' -n 1
 
 # Format partitions
-echo "Formatting partitions"
 mkfs.fat -F32 $ESP
 mkfs.ext4 -F $ROOT
 mkfs.ext4 -F $HOME
 mkswap $SWAP
-read -rsp $'Press any key to continue...\n' -n 1
 
 # Mount partitions
-echo "Mounting partitions"
 mount $ROOT /mnt
 mount $ESP /mnt/boot --mkdir
 mount $HOME /mnt/home --mkdir
@@ -52,9 +48,6 @@ clear
 
 # Install base system
 pacstrap -K /mnt amd-ucode base base-devel linux linux-firmware linux-headers
-read -rsp $'Press any key to continue...\n' -n 1
-#sleep 1s
-clear
 
 # Congifure /mnt/etc/fstab
 echo "Generating fstab"
