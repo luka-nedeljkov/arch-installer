@@ -23,11 +23,8 @@ else
 	HOME=$NVME_HOME
 fi
 
-# Unmounting partitions
-echo "Setting up partitions"
-swapoff $SWAP
-
 # Zap and partition drives
+echo "Setting up partitions"
 sgdisk -Z $DRIVE
 sgdisk -n 0:0:+1G -t 0:ef00 -c 0:"esp" $DRIVE
 sgdisk -n 0:0:+${SWAP_SIZE}G -t 0:8200 -c 0:"swap" $DRIVE
