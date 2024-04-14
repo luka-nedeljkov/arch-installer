@@ -95,7 +95,6 @@ echo "Defaults rootpw" >>/etc/sudoers.d/$USER
 
 # Remove script and exit chroot
 rm /arch-install.conf
-rm /pkg-list.txt
 rm /chroot-install.sh
 read -rsp $'Press any key to continue...\n' -n 1
 #sleep 1s
