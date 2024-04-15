@@ -66,12 +66,12 @@ arch-chroot /mnt ./chroot-install.sh
 
 # Unmount and reboot
 echo "Unmounting all drives"
+rm /mnt/base-install.conf
+rm /mnt/chroot-install.sh
 umount -R /mnt
 
 # Reboot
 echo "Installation complete!"
-rm /mnt/base-install.conf
-rm /mnt/chroot-install.sh
 git clone https://github.com/luka-nedeljkov/arch-scripts /mnt/home/$USER/arch-scripts
 
 read -rsp "Press enter to reboot..."

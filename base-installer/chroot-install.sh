@@ -1,5 +1,5 @@
 # Source config
-source base-install.conf
+source ./base-install.conf
 
 # Detect VM and define drives
 if cat /proc/cpuinfo | grep -q "hypervisor"; then
