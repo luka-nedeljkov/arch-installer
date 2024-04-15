@@ -59,10 +59,10 @@ read -rsp "Press enter to continue..."
 clear
 
 # Prepare chroot
-mkdir /mnt/arch-scripts
-cp -r * /mnt/arch-scripts
-#chmod +x /mnt/arch-scripts/base-installer/chroot-install.sh
-arch-chroot /mnt /arch-scripts/base-installer/chroot-install.sh
+cp base-install.conf /mnt/base-install.conf
+cp chroot-install.sh /mnt/chroot-install.sh
+#chmod +x /mnt/chroot-install.sh
+arch-chroot /mnt ./chroot-install.sh
 
 # Unmount and reboot
 echo "Unmounting all drives"
@@ -70,7 +70,8 @@ umount -R /mnt
 
 # Reboot
 echo "Installation complete!"
-rm -rf /mnt/arch-scripts
+rm /mnt/base-install.conf
+rm /mnt/chroot-install.sh
 git clone https://github.com/luka-nedeljkov/arch-scripts /mnt/home/$USER/arch-scripts
 
 read -rsp "Press enter to reboot..."
