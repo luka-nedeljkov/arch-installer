@@ -5,9 +5,6 @@ echo "Loading config"
 source base-install.conf
 set -e
 
-# Set time
-#timedatelctl set-ntp true
-
 # Detect VM and define drives
 if cat /proc/cpuinfo | grep -q "hypervisor"; then
 	DRIVE=$VM_DRIVE
@@ -73,7 +70,6 @@ umount -R /mnt
 
 # Reboot
 echo "Installation complete!"
-
 read -rsp "Press enter to reboot..."
 #echo "Rebooting in 5s"
 #sleep 5s

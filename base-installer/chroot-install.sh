@@ -28,10 +28,6 @@ sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
-pacman -Syyuu --noconfirm zsh
-read -rsp "Press enter to continue..."
-#sleep 1s
-clear
 
 # Locale
 echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
@@ -53,7 +49,7 @@ systemctl enable fstrim.timer
 # Network
 echo "Configuring network"
 echo $HOSTNAME >/etc/hostname
-pacman -S --noconfirm networkmanager
+pacman -S --noconfirm networkmanager zsh
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
 read -rsp "Press enter to continue..."
@@ -63,9 +59,6 @@ clear
 # Root password
 echo "Root password"
 passwd root
-read -rsp "Press enter to continue..."
-#sleep 1s
-clear
 
 # Bootloader
 echo "Installing bootloader"
@@ -80,9 +73,6 @@ echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/amd-ucode.img" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
 echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >>/boot/loader/entries/arch.conf
-read -rsp "Press ender to continue..."
-#sleep 1s
-clear
 
 # Add user
 echo "Adding user: $USER"
