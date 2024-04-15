@@ -1,0 +1,3 @@
+xorg-server
+sddm
+plasma-desktop
