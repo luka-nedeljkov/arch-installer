@@ -2,7 +2,7 @@
 
 # Source config and fail on error
 echo "Loading config"
-source arch-install.conf
+source base-install.conf
 set -e
 
 # Set time
@@ -42,7 +42,7 @@ mount $ROOT /mnt
 mount $ESP /mnt/boot --mkdir
 mount $HOME /mnt/home --mkdir
 swapon $SWAP
-read -rsp $'Press any key to continue...\n' -n 1
+read -rsp "Press enter to continue..."
 #sleep 1s
 clear
 
@@ -54,15 +54,15 @@ echo "Generating fstab"
 genfstab -U /mnt >>/mnt/etc/fstab
 sed -i 's/fmask=0022/fmask=0137/' /mnt/etc/fstab
 sed -i 's/dmask=0022/dmask=0027/' /mnt/etc/fstab
-read -rsp $'Press any key to continue...\n' -n 1
+read -rsp "Press enter to continue..."
 #sleep 1s
 clear
 
 # Prepare chroot
-cp arch-install.conf /mnt/arch-install.conf
-cp chroot-install.sh /mnt/chroot-install.sh
-chmod +x /mnt/chroot-install.sh
-arch-chroot /mnt ./chroot-install.sh
+mkdir /mnt/arch-scripts
+cp -r * /mnt/arch-scripts
+#chmod +x /mnt/arch-scripts/base-installer/chroot-install.sh
+arch-chroot /mnt /arch-scripts/base-installer/chroot-install.sh
 
 # Unmount and reboot
 echo "Unmounting all drives"
@@ -70,13 +70,10 @@ umount -R /mnt
 
 # Reboot
 echo "Installation complete!"
+rm -rf /mnt/arch-scripts
+git clone https://github.com/luka-nedeljkov/arch-scripts /mnt/home/$USER/arch-scripts
 
-read -rp "Do you wish to download the post-install scripts? (y/N)" choice
-if [[ "$choice" == [Yy] ]]; then
-	git clone https://github.com/luka-nedeljkov/arch-installer /mnt/home/$USER
-fi
-
-read -rsp $'Press any key to reboot...\n' -n 1
+read -rsp "Press enter to reboot..."
 #echo "Rebooting in 5s"
 #sleep 5s
 reboot

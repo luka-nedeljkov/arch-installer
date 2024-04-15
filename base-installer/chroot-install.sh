@@ -1,5 +1,5 @@
 # Source config
-source /arch-install.conf
+source base-install.conf
 
 # Detect VM and define drives
 if cat /proc/cpuinfo | grep -q "hypervisor"; then
@@ -29,7 +29,7 @@ sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
 pacman -Syyuu --noconfirm zsh
-read -rsp $'Press any key to continue...\n' -n 1
+read -rsp "Press enter to continue..."
 #sleep 1s
 clear
 
@@ -42,7 +42,7 @@ echo "LANG=en_US.UTF-8" >/etc/locale.conf
 echo "Setting timezone"
 ln -sf /usr/share/zoneinfo/Europe/Belgrade /etc/localtime
 hwclock --systohc
-read -rsp $'Press any key to continue...\n' -n 1
+read -rsp "Press enter to continue..."
 #sleep 1s
 clear
 
@@ -56,14 +56,14 @@ echo $HOSTNAME >/etc/hostname
 pacman -S --noconfirm networkmanager
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
-read -rsp $'Press any key to continue...\n' -n 1
+read -rsp "Press enter to continue..."
 #sleep 1s
 clear
 
 # Root password
 echo "Root password"
 passwd root
-read -rsp $'Press any key to continue...\n' -n 1
+read -rsp "Press enter to continue..."
 #sleep 1s
 clear
 
@@ -80,7 +80,7 @@ echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/amd-ucode.img" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
 echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $ROOT) rw" >>/boot/loader/entries/arch.conf
-read -rsp $'Press any key to continue...\n' -n 1
+read -rsp "Press ender to continue..."
 #sleep 1s
 clear
 
@@ -90,13 +90,12 @@ useradd -m -G wheel -s /bin/zsh $USER
 passwd $USER
 chfn -f $(echo $USER | sed 's/.*/\u&/') $USER
 
+# Sudoers settings
 echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/$USER
 echo "Defaults rootpw" >>/etc/sudoers.d/$USER
 
-# Remove script and exit chroot
-rm /arch-install.conf
-rm /chroot-install.sh
-read -rsp $'Press any key to continue...\n' -n 1
+# Exit chroot
+read -rsp "Press enter to continue..."
 #sleep 1s
 clear
 exit

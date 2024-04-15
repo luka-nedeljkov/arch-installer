@@ -2,7 +2,7 @@
 
 ```
 pacman -Sy git
-git clone https://github.com/luka-nedeljkov/arch-installer
-cd arch-installer
-./arch-installer.sh
+git clone https://github.com/luka-nedeljkov/arch-scripts
+cd arch-scripts/base-installer
+./base-install.sh
 ```
