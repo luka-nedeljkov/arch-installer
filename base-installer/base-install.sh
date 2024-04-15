@@ -68,11 +68,11 @@ arch-chroot /mnt ./chroot-install.sh
 echo "Unmounting all drives"
 rm /mnt/base-install.conf
 rm /mnt/chroot-install.sh
+git clone https://github.com/luka-nedeljkov/arch-scripts /mnt/home/$USER/arch-scripts
 umount -R /mnt
 
 # Reboot
 echo "Installation complete!"
-git clone https://github.com/luka-nedeljkov/arch-scripts /mnt/home/$USER/arch-scripts
 
 read -rsp "Press enter to reboot..."
 #echo "Rebooting in 5s"
