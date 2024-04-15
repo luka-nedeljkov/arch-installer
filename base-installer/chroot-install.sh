@@ -49,7 +49,7 @@ systemctl enable fstrim.timer
 # Network
 echo "Configuring network"
 echo $HOSTNAME >/etc/hostname
-pacman -S --noconfirm neofetch networkmanager zsh
+pacman -Sy --noconfirm neofetch networkmanager zsh
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
 read -rsp "Press enter to continue..."
