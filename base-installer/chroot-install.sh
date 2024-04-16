@@ -50,9 +50,6 @@ echo "Configuring network"
 echo $HOSTNAME >/etc/hostname
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
-#read -rsp "Press enter to continue..."
-#sleep 1s
-#clear
 
 # Root password
 echo "Root password"
@@ -83,7 +80,4 @@ echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/$USER
 echo "Defaults rootpw" >>/etc/sudoers.d/$USER
 
 # Exit chroot
-read -rsp "Press enter to continue..."
-#sleep 1s
-clear
 exit
