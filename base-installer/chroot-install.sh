@@ -17,12 +17,10 @@ else
 fi
 
 # Remount esp
-echo "Remounting ESP"
 umount /boot
 mount /boot
 
 # Configure pacman and install additional packages
-echo "Configuring and refreshing pacman"
 sed -i 's/#Color/Color/' /etc/pacman.conf
 sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
@@ -52,9 +50,9 @@ echo "Configuring network"
 echo $HOSTNAME >/etc/hostname
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
-read -rsp "Press enter to continue..."
+#read -rsp "Press enter to continue..."
 #sleep 1s
-clear
+#clear
 
 # Root password
 echo "Root password"
