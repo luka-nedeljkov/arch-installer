@@ -28,6 +28,10 @@ sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
+pacman -Sy --needed --noconfirm neofetch networkmanager zsh
+read -rsp "Press enter to continue..."
+#sleep 1s
+clear
 
 # Locale
 echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
@@ -38,9 +42,6 @@ echo "LANG=en_US.UTF-8" >/etc/locale.conf
 echo "Setting timezone"
 ln -sf /usr/share/zoneinfo/Europe/Belgrade /etc/localtime
 hwclock --systohc
-read -rsp "Press enter to continue..."
-#sleep 1s
-clear
 
 # Enable fstrim
 echo "Enabling fstrim.timer service"
@@ -49,7 +50,6 @@ systemctl enable fstrim.timer
 # Network
 echo "Configuring network"
 echo $HOSTNAME >/etc/hostname
-pacman -Sy --noconfirm neofetch networkmanager zsh
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
 read -rsp "Press enter to continue..."
