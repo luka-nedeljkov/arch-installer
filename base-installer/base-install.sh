@@ -45,15 +45,15 @@ clear
 
 # Install base system
 pacstrap -K /mnt amd-ucode base base-devel linux linux-firmware linux-headers
+read -rsp "Press enter to continue..."
+#sleep 1s
+clear
 
 # Congifure /mnt/etc/fstab
 echo "Generating fstab"
 genfstab -U /mnt >>/mnt/etc/fstab
 sed -i 's/fmask=0022/fmask=0137/' /mnt/etc/fstab
 sed -i 's/dmask=0022/dmask=0027/' /mnt/etc/fstab
-read -rsp "Press enter to continue..."
-#sleep 1s
-clear
 
 # Prepare chroot
 cp base-install.conf /mnt/base-install.conf
