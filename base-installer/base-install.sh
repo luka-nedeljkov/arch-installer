@@ -39,11 +39,11 @@ for i in "${partitions[@]}"; do
 	IFS='|' read -ra array <<<"$i"
 	if [[ "${array[4]}" != "/mnt" ]]; then
 		if [[ "${array[4]}" = "swap" ]]; then
-			swapon $array[0]
+			swapon ${array[0]}
 		elif [[ "${array[4]}" = "/mnt/efi" ]]; then
-			mount $array[0] $array[4] --mkdir -o umask=0077
+			mount ${array[0]} ${array[4]} --mkdir -o umask=0077
 		else
-			mount $array[0] $array[4] --mkdir
+			mount ${array[0]} ${array[4]} --mkdir
 		fi
 	fi
 done
@@ -70,7 +70,6 @@ arch-chroot /mnt ./chroot-install.sh
 echo "Unmounting all drives"
 rm /mnt/base-install.conf
 rm /mnt/chroot-install.sh
-git clone https://github.com/luka-nedeljkov/arch-scripts /mnt/home/$user/arch-scripts
 umount -R /mnt
 
 # Reboot
