@@ -47,14 +47,12 @@ for i in "${partitions[@]}"; do
 		fi
 	fi
 done
-read -rsp "Press enter to continue..."
-#sleep 1s
+sleep 1s
 clear
 
 # Install base system
 pacstrap -K /mnt ${cpu}-ucode base base-devel linux linux-firmware
-read -rsp "Press enter to continue..."
-#sleep 1s
+sleep 1s
 clear
 
 # Congifure /mnt/etc/fstab
@@ -63,7 +61,6 @@ genfstab -U /mnt >>/mnt/etc/fstab
 # Prepare chroot
 cp base-install.conf /mnt/base-install.conf
 cp chroot-install.sh /mnt/chroot-install.sh
-#chmod +x /mnt/chroot-install.sh
 arch-chroot /mnt ./chroot-install.sh
 
 # Unmount and reboot
@@ -71,10 +68,10 @@ echo "Unmounting all drives"
 rm /mnt/base-install.conf
 rm /mnt/chroot-install.sh
 umount -R /mnt
+swapoff -a
 
 # Reboot
 echo "Installation complete!"
-read -rsp "Press enter to reboot..."
-#echo "Rebooting in 5s"
-#sleep 5s
+echo "Rebooting in 5s"
+sleep 5s
 reboot

@@ -19,8 +19,7 @@ fi
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
 pacman -Sy --needed --noconfirm $packages
-read -rsp "Press enter to continue..."
-#sleep 1s
+sleep 1s
 clear
 
 # Locale
