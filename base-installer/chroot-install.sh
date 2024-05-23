@@ -12,7 +12,7 @@ source ./base-install.conf
 
 # Configure pacman and install additional packages
 sed -i 's/#Color/Color/' /etc/pacman.conf
-sed -i 's/#ParallelDownloads = 5/ParallelDownloads = ${parralleldownloads}/' /etc/pacman.conf
+sed -i "s/#ParallelDownloads = 5/ParallelDownloads = ${paralleldownloads}/" /etc/pacman.conf
 if [[ "$ilovecandy" = true ]]; then
 	sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
 fi
