@@ -1,8 +1,9 @@
 # arch-installer
 
 ```
-pacman -Sy git
+pacman -Sy git --noconfirm
 git clone https://github.com/luka-nedeljkov/arch-scripts
 cd arch-scripts/base-installer
-./base-install.sh
 ```
+
+Congifure the script using the base-install.conf file and run the script with `./base-install.sh`
