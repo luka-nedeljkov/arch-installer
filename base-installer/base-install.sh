@@ -23,7 +23,7 @@ for i in "${partitions[@]}"; do
 	if [[ ${array[5]} = "no" ]]; then
 		continue
 	fi
-    case ${array[2]} in
+	case ${array[2]} in
 	"ef00" | "ea00")
 		mkfs.fat -F32 ${array[0]}
 		;;
