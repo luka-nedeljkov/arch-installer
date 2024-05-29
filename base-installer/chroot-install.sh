@@ -12,6 +12,7 @@ source ./base-install.conf
 
 # Configure pacman and install additional packages
 sed -i 's/#Color/Color/' /etc/pacman.conf
+sed -i 's/#VerbosePkgLists/VerbosePkgLists/' /etc/pacman.conf
 sed -i "s/#ParallelDownloads = 5/ParallelDownloads = ${paralleldownloads}/" /etc/pacman.conf
 if [[ "$ilovecandy" = true ]]; then
 	sed -i '/ParallelDownloads = 5/a ILoveCandy' /etc/pacman.conf
@@ -49,18 +50,20 @@ echo "Root password"
 passwd root
 
 # Bootloader
-echo "Installing bootloader"
-bootctl install
-
-echo "default arch.conf" >/efi/loader/loader.conf
-echo "timeout $timeout" >>/efi/loader/loader.conf
-echo "editor no" >>/efi/loader/loader.conf
-
-echo -e "title\tArch Linux" >/boot/loader/entries/arch.conf
-echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
-echo -e "initrd\t/${cpu}-ucode.img" >>/boot/loader/entries/arch.conf
-echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
-echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >>/boot/loader/entries/arch.conf
+if [[ "$bootloader" = true ]]; then
+	echo "Installing bootloader"
+	bootctl install
+	
+	echo "default arch.conf" >/efi/loader/loader.conf
+	echo "timeout $timeout" >>/efi/loader/loader.conf
+	echo "editor no" >>/efi/loader/loader.conf
+	
+	echo -e "title\tArch Linux" >/boot/loader/entries/arch.conf
+	echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
+	echo -e "initrd\t/${cpu}-ucode.img" >>/boot/loader/entries/arch.conf
+	echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
+	echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >>/boot/loader/entries/arch.conf
+fi
 
 # Add user
 echo "Adding user: $user"
