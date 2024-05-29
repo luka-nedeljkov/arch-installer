@@ -57,13 +57,12 @@ if [[ "$bootloader" = true ]]; then
 	echo "default arch.conf" >/efi/loader/loader.conf
 	echo "timeout $timeout" >>/efi/loader/loader.conf
 	echo "editor no" >>/efi/loader/loader.conf
-	
-	echo -e "title\tArch Linux" >/boot/loader/entries/arch.conf
-	echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
-	echo -e "initrd\t/${cpu}-ucode.img" >>/boot/loader/entries/arch.conf
-	echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
-	echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >>/boot/loader/entries/arch.conf
 fi
+echo -e "title\t${boot-entry}" >/boot/loader/entries/arch.conf
+echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
+echo -e "initrd\t/${cpu}-ucode.img" >>/boot/loader/entries/arch.conf
+echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
+echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >>/boot/loader/entries/arch.conf
 
 # Add user
 echo "Adding user: $user"
