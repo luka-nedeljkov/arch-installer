@@ -50,15 +50,13 @@ echo "Root password"
 passwd root
 
 # Bootloader
+bootctl install
 if [[ "$bootloader" = true ]]; then
-	echo "Installing bootloader"
-	bootctl install
-	
 	echo "default arch.conf" >/efi/loader/loader.conf
 	echo "timeout $timeout" >>/efi/loader/loader.conf
 	echo "editor no" >>/efi/loader/loader.conf
 fi
-echo -e "title\t${boot-entry}" >/boot/loader/entries/arch.conf
+echo -e "title\t${bootentry}" >/boot/loader/entries/arch.conf
 echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/${cpu}-ucode.img" >>/boot/loader/entries/arch.conf
 echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
