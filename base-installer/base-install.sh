@@ -20,7 +20,10 @@ sgdisk -Z $drive
 for i in "${partitions[@]}"; do
 	IFS='|' read -ra array <<<"$i"
 	sgdisk -n 0:0:${array[1]} -t 0:${array[2]} -c 0:\"${array[3]}\" $drive
-	case ${array[2]} in
+	if [[ ${array[5]} = "no" ]]; then
+		continue
+	fi
+    case ${array[2]} in
 	"ef00" | "ea00")
 		mkfs.fat -F32 ${array[0]}
 		;;
