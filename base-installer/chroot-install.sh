@@ -52,9 +52,9 @@ passwd root
 echo "Installing bootloader"
 bootctl install
 
-echo "default arch.conf" >/boot/loader/loader.conf
-echo "timeout $timeout" >>/boot/loader/loader.conf
-echo "editor no" >>/boot/loader/loader.conf
+echo "default arch.conf" >/efi/loader/loader.conf
+echo "timeout $timeout" >>/efi/loader/loader.conf
+echo "editor no" >>/efi/loader/loader.conf
 
 echo -e "title\tArch Linux" >/boot/loader/entries/arch.conf
 echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
