@@ -11,7 +11,7 @@ findroot() {
 
 # Source config and fail on error
 echo "Loading config"
-source base-install.conf
+source arch-installer.conf
 set -e
 
 # Partition drives and format partitions
@@ -64,14 +64,14 @@ clear
 genfstab -U /mnt >>/mnt/etc/fstab
 
 # Prepare chroot
-cp base-install.conf /mnt/base-install.conf
-cp chroot-install.sh /mnt/chroot-install.sh
-arch-chroot /mnt ./chroot-install.sh
+cp arch-installer.conf /mnt/arch-installer.conf
+cp chroot.sh /mnt/chroot.sh
+arch-chroot /mnt ./chroot.sh
 
 # Unmount and reboot
 echo "Unmounting all drives"
-rm /mnt/base-install.conf
-rm /mnt/chroot-install.sh
+rm /mnt/arch-installer.conf
+rm /mnt/chroot.sh
 umount -R /mnt
 swapoff -a
 

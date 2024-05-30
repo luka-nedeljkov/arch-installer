@@ -8,7 +8,7 @@ findroot() {
 }
 
 # Source config
-source ./base-install.conf
+source ./arch-installer.conf
 
 # Configure pacman and install additional packages
 sed -i 's/#Color/Color/' /etc/pacman.conf
