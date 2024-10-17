@@ -20,8 +20,9 @@ fi
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
 pacman -Sy --needed --noconfirm $packages
-sleep 1s
-clear
+read
+#sleep 1s
+#clear
 
 # Locale
 echo "$locale" >> /etc/locale.gen
@@ -62,6 +63,8 @@ chfn -f $(echo $user | sed 's/.*/\u&/') $user
 # Sudoers settings
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/$user
 echo "Defaults rootpw" >> /etc/sudoers.d/$user
+
+read
 
 # Exit chroot
 exit
