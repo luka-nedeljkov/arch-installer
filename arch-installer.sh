@@ -33,14 +33,14 @@ for i in "${partitions[@]}"; do
 		mkswap ${array[0]}
 		;;
 	"8300")
- 		[[ $filesystem = "brtfs" ]] && mkfs.btrfs ${array[0]}
+ 		[[ $filesystem = "btrfs" ]] && mkfs.btrfs ${array[0]}
 		[[ $filesystem = "ext4" ]] && mkfs.ext4 -F ${array[0]}
 		;;
 	esac
 done
 
 # Mount Btrfs
-if [[ $filesystem = "brtfs" ]]; then
+if [[ $filesystem = "btrfs" ]]; then
     mount $(findroot) /mnt
     for i in "${subvolumes[@]}"; do
         IFS='|' read -ra array <<< "$i"
@@ -56,7 +56,7 @@ if [[ $filesystem = "brtfs" ]]; then
     IFS='|' read -ra esp <<< ${partitions[0]}
     mount -o umask=0077 ${esp[0]} ${esp[4]} --mkdir
     IFS='|' read -ra swap <<< ${partitions[1]}
-    swapon ${esp[0]}
+    swapon ${swap[0]}
 fi
 
 # Mount Ext4
