@@ -20,14 +20,14 @@ if [[ "$zap" = true ]]; then
 	sgdisk -Z $drive
 fi
 for i in "${partitions[@]}"; do
-	IFS='|' read -ra array <<<"$i"
+	IFS='|' read -ra array <<< "$i"
 	if [[ ${array[5]} = "no" ]]; then
 		continue
 	fi
-	sgdisk -n 0:0:${array[1]} -t 0:${array[2]} -c 0:\"${array[3]}\" $drive
+	sgdisk -n 0:0:${array[1]} -t 0:${array[2]} -c 0:${array[3]} $drive
 	case ${array[2]} in
 	"ef00" | "ea00")
-		mkfs.fat -F32 ${array[0]}
+		mkfs.fat -F 32 ${array[0]}
 		;;
 	"8200")
 		mkswap ${array[0]}
@@ -61,7 +61,7 @@ sleep 1s
 clear
 
 # Congifure /mnt/etc/fstab
-genfstab -U /mnt >>/mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 # Prepare chroot
 cp arch-installer.conf /mnt/arch-installer.conf
