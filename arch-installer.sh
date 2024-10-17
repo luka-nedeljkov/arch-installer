@@ -33,14 +33,14 @@ for i in "${partitions[@]}"; do
 		mkswap ${array[0]}
 		;;
 	"8300")
- 		[[ filesystem = "brtfs" ]] && mkfs.btrfs ${array[0]}
-		[[ filesystem = "ext4" ]] && mkfs.ext4 -F ${array[0]}
+ 		[[ $filesystem = "brtfs" ]] && mkfs.btrfs ${array[0]}
+		[[ $filesystem = "ext4" ]] && mkfs.ext4 -F ${array[0]}
 		;;
 	esac
 done
 
 # Mount Btrfs
-if [[ filesystem = "brtfs" ]]; then
+if [[ $filesystem = "brtfs" ]]; then
     mount $(findroot) /mnt
     for i in "${subvolumes[@]}"; do
         IFS='|' read -ra array <<< "$i"
@@ -60,19 +60,21 @@ if [[ filesystem = "brtfs" ]]; then
 fi
 
 # Mount Ext4
-mount $(findroot) /mnt
-for i in "${partitions[@]}"; do
-	IFS='|' read -ra array <<<"$i"
-	if [[ "${array[4]}" != "/mnt" ]]; then
-		if [[ "${array[4]}" = "swap" ]]; then
-			swapon ${array[0]}
-		elif [[ "${array[4]}" = "/mnt/efi" ]]; then
-			mount ${array[0]} ${array[4]} --mkdir -o umask=0077
-		else
-			mount ${array[0]} ${array[4]} --mkdir
+if [[ $filesystem = "ext4" ]]; then
+	mount $(findroot) /mnt
+	for i in "${partitions[@]}"; do
+		IFS='|' read -ra array <<<"$i"
+		if [[ "${array[4]}" != "/mnt" ]]; then
+			if [[ "${array[4]}" = "swap" ]]; then
+				swapon ${array[0]}
+			elif [[ "${array[4]}" = "/mnt/efi" ]]; then
+				mount ${array[0]} ${array[4]} --mkdir -o umask=0077
+			else
+				mount ${array[0]} ${array[4]} --mkdir
+			fi
 		fi
-	fi
-done
+	done
+fi
 sleep 1s
 clear
 
