@@ -2,7 +2,7 @@
 
 findroot() {
 	for i in "${partitions[@]}"; do
-		IFS='|' read -ra array <<<"$i"
+		IFS='|' read -ra array <<< "$i"
 		if [[ "${array[4]}" == "/mnt" ]]; then
 			echo "${array[0]}"
 		fi
@@ -20,7 +20,7 @@ if [[ "$zap" = true ]]; then
 	sgdisk -Z $drive
 fi
 for i in "${partitions[@]}"; do
-	IFS='|' read -ra array <<<"$i"
+	IFS='|' read -ra array <<< "$i"
 	if [[ ${array[5]} = "no" ]]; then
 		continue
 	fi
@@ -41,7 +41,7 @@ done
 # Mount partitions
 mount $(findroot) /mnt
 for i in "${partitions[@]}"; do
-	IFS='|' read -ra array <<<"$i"
+	IFS='|' read -ra array <<< "$i"
 	if [[ "${array[4]}" != "/mnt" ]]; then
 		if [[ "${array[4]}" = "swap" ]]; then
 			swapon ${array[0]}
@@ -61,7 +61,7 @@ sleep 1s
 clear
 
 # Congifure /mnt/etc/fstab
-genfstab -U /mnt >>/mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 # Prepare chroot
 cp arch-installer.conf /mnt/arch-installer.conf
