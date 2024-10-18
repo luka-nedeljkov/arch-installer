@@ -1,6 +1,6 @@
 findroot() {
 	for i in "${partitions[@]}"; do
-		IFS='|' read -ra array <<<"$i"
+		IFS='|' read -ra array <<< "$i"
 		if [[ "${array[4]}" = "/mnt" ]]; then
 			echo "${array[0]}"
 		fi
@@ -24,9 +24,9 @@ sleep 1s
 clear
 
 # Locale
-echo "$locale" >>/etc/locale.gen
+echo "$locale" >> /etc/locale.gen
 locale-gen
-echo "LANG=$keymap" >/etc/locale.conf
+echo "LANG=$keymap" > /etc/locale.conf
 
 # Timezone
 echo "Setting timezone"
@@ -41,7 +41,7 @@ fi
 
 # Network
 echo "Configuring network"
-echo $hostname >/etc/hostname
+echo $hostname > /etc/hostname
 systemctl enable NetworkManager
 systemctl enable systemd-resolved
 
@@ -52,15 +52,15 @@ passwd root
 # Bootloader
 bootctl install
 if [[ "$bootloader" = true ]]; then
-	echo "default arch.conf" >/efi/loader/loader.conf
-	echo "timeout $timeout" >>/efi/loader/loader.conf
-	echo "editor no" >>/efi/loader/loader.conf
+	echo "default arch.conf" > /efi/loader/loader.conf
+	echo "timeout $timeout" >> /efi/loader/loader.conf
+	echo "editor no" >> /efi/loader/loader.conf
 fi
-echo -e "title\t${bootentry}" >/boot/loader/entries/arch.conf
-echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
-echo -e "initrd\t/${cpu}-ucode.img" >>/boot/loader/entries/arch.conf
-echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
-echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >>/boot/loader/entries/arch.conf
+echo -e "title\t${bootentry}" > /boot/loader/entries/arch.conf
+echo -e "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
+echo -e "initrd\t/${cpu}-ucode.img" >> /boot/loader/entries/arch.conf
+echo -e "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
+echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >> /boot/loader/entries/arch.conf
 
 # Add user
 echo "Adding user: $user"
@@ -69,8 +69,8 @@ passwd $user
 chfn -f $(echo $user | sed 's/.*/\u&/') $user
 
 # Sudoers settings
-echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/$user
-echo "Defaults rootpw" >>/etc/sudoers.d/$user
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/$user
+echo "Defaults rootpw" >> /etc/sudoers.d/$user
 
 # Exit chroot
 exit
