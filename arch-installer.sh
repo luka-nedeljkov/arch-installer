@@ -33,7 +33,7 @@ for i in "${partitions[@]}"; do
 		mkswap ${array[0]}
 		;;
 	"8300")
- 		[[ $filesystem = "btrfs" ]] && mkfs.btrfs ${array[0]}
+ 		[[ $filesystem = "btrfs" ]] && mkfs.btrfs -f ${array[0]}
 		[[ $filesystem = "ext4" ]] && mkfs.ext4 -F ${array[0]}
 		;;
 	esac
