@@ -24,34 +24,57 @@ for i in "${partitions[@]}"; do
 	if [[ ${array[5]} = "no" ]]; then
 		continue
 	fi
-	sgdisk -n 0:0:${array[1]} -t 0:${array[2]} -c 0:\"${array[3]}\" $drive
+	sgdisk -n 0:0:${array[1]} -t 0:${array[2]} -c 0:${array[3]} $drive
 	case ${array[2]} in
 	"ef00" | "ea00")
-		mkfs.fat -F32 ${array[0]}
+		mkfs.fat -F 32 ${array[0]}
 		;;
 	"8200")
 		mkswap ${array[0]}
 		;;
 	"8300")
-		mkfs.ext4 -F ${array[0]}
+ 		[[ $filesystem = "btrfs" ]] && mkfs.btrfs -f ${array[0]}
+		[[ $filesystem = "ext4" ]] && mkfs.ext4 -F ${array[0]}
 		;;
 	esac
 done
 
-# Mount partitions
-mount $(findroot) /mnt
-for i in "${partitions[@]}"; do
-	IFS='|' read -ra array <<< "$i"
-	if [[ "${array[4]}" != "/mnt" ]]; then
-		if [[ "${array[4]}" = "swap" ]]; then
-			swapon ${array[0]}
-		elif [[ "${array[4]}" = "/mnt/efi" ]]; then
-			mount ${array[0]} ${array[4]} --mkdir -o umask=0077
-		else
-			mount ${array[0]} ${array[4]} --mkdir
+# Mount Btrfs
+if [[ $filesystem = "btrfs" ]]; then
+    mount $(findroot) /mnt
+    for i in "${subvolumes[@]}"; do
+        IFS='|' read -ra array <<< "$i"
+        btrfs subvolume create /mnt/${array[0]}
+    done
+    umount /mnt
+    
+    for i in "${subvolumes[@]}"; do
+        IFS='|' read -ra array <<< "$i"
+        mount -o noatime,compress=zstd,subvol=${array[0]} $(findroot) ${array[1]} --mkdir
+    done
+    
+    IFS='|' read -ra esp <<< ${partitions[0]}
+    mount -o umask=0077 ${esp[0]} ${esp[4]} --mkdir
+    IFS='|' read -ra swap <<< ${partitions[1]}
+    swapon ${swap[0]}
+fi
+
+# Mount Ext4
+if [[ $filesystem = "ext4" ]]; then
+	mount $(findroot) /mnt
+	for i in "${partitions[@]}"; do
+		IFS='|' read -ra array <<<"$i"
+		if [[ "${array[4]}" != "/mnt" ]]; then
+			if [[ "${array[4]}" = "swap" ]]; then
+				swapon ${array[0]}
+			elif [[ "${array[4]}" = "/mnt/efi" ]]; then
+				mount ${array[0]} ${array[4]} --mkdir -o umask=0077
+			else
+				mount ${array[0]} ${array[4]} --mkdir
+			fi
 		fi
-	fi
-done
+	done
+fi
 sleep 1s
 clear
 

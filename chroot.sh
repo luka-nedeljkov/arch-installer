@@ -19,6 +19,10 @@ if [[ "$ilovecandy" = true ]]; then
 fi
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
+
+[[ $bootloader = "grub" ]] && packages="$packages grub efibootmgr"
+[[ $filesystem = "btrfs" ]] && packages="$packages btrfs-progs"
+[[ $osprober = true ]] && packages="$packages os-prober"
 pacman -Sy --needed --noconfirm $packages
 sleep 1s
 clear
@@ -50,17 +54,25 @@ echo "Root password"
 passwd root
 
 # Bootloader
-bootctl install
-if [[ "$bootloader" = true ]]; then
-	echo "default arch.conf" > /efi/loader/loader.conf
-	echo "timeout $timeout" >> /efi/loader/loader.conf
-	echo "editor no" >> /efi/loader/loader.conf
+# GNU GRUB
+if [[ $bootloader = "grub" ]]; then
+	grub-install --efi-directory=/efi --bootloader-id=GRUB
+    grub-mkconfig -o /boot/grub/grub.cfg
 fi
-echo -e "title\t${bootentry}" > /boot/loader/entries/arch.conf
-echo -e "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
-echo -e "initrd\t/${cpu}-ucode.img" >> /boot/loader/entries/arch.conf
-echo -e "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
-echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >> /boot/loader/entries/arch.conf
+# systemd-boot
+if [[ $bootloader = "systemd-boot" ]]; then
+    bootctl install
+    if [[ "$bootloader" = true ]]; then
+    	echo "default arch.conf" > /efi/loader/loader.conf
+    	echo "timeout $timeout" >> /efi/loader/loader.conf
+    	echo "editor no" >> /efi/loader/loader.conf
+    fi
+    echo -e "title\t${bootentry}" > /boot/loader/entries/arch.conf
+    echo -e "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
+    echo -e "initrd\t/${cpu}-ucode.img" >> /boot/loader/entries/arch.conf
+    echo -e "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
+    echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >> /boot/loader/entries/arch.conf
+fi
 
 # Add user
 echo "Adding user: $user"
