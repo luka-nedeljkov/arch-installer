@@ -2,7 +2,7 @@
 
 findroot() {
 	for i in "${partitions[@]}"; do
-		IFS='|' read -ra array <<<"$i"
+		IFS='|' read -ra array <<< "$i"
 		if [[ "${array[4]}" == "/mnt" ]]; then
 			echo "${array[0]}"
 		fi
