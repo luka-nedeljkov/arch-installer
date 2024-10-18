@@ -1,6 +1,6 @@
 findroot() {
 	for i in "${partitions[@]}"; do
-		IFS='|' read -ra array <<<"$i"
+		IFS='|' read -ra array <<< "$i"
 		if [[ "${array[4]}" = "/mnt" ]]; then
 			echo "${array[0]}"
 		fi
@@ -63,15 +63,15 @@ fi
 if [[ $bootloader = "systemd-boot" ]]; then
     bootctl install
     if [[ "$bootloader" = true ]]; then
-    	echo "default arch.conf" >/efi/loader/loader.conf
-    	echo "timeout $timeout" >>/efi/loader/loader.conf
-    	echo "editor no" >>/efi/loader/loader.conf
+    	echo "default arch.conf" > /efi/loader/loader.conf
+    	echo "timeout $timeout" >> /efi/loader/loader.conf
+    	echo "editor no" >> /efi/loader/loader.conf
     fi
-    echo -e "title\t${bootentry}" >/boot/loader/entries/arch.conf
-    echo -e "linux\t/vmlinuz-linux" >>/boot/loader/entries/arch.conf
-    echo -e "initrd\t/${cpu}-ucode.img" >>/boot/loader/entries/arch.conf
-    echo -e "initrd\t/initramfs-linux.img" >>/boot/loader/entries/arch.conf
-    echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >>/boot/loader/entries/arch.conf
+    echo -e "title\t${bootentry}" > /boot/loader/entries/arch.conf
+    echo -e "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
+    echo -e "initrd\t/${cpu}-ucode.img" >> /boot/loader/entries/arch.conf
+    echo -e "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
+    echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >> /boot/loader/entries/arch.conf
 fi
 
 # Add user
