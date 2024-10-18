@@ -20,6 +20,8 @@ fi
 sed -i 's/#\[multilib\]/\[multilib\]/' /etc/pacman.conf
 sed -i '/\[multilib\]/{n;s_.*_Include = /etc/pacman.d/mirrorlist_}' /etc/pacman.conf
 pacman -Sy --needed --noconfirm $packages
+[[ $bootloader = "grub" ]] && pacman -S --noconfirm grub efibootmgr os-prober
+[[ $filesystem = "btrfs" ]] && pacman -S --noconfirm btrfs-progs
 sleep 1s
 clear
 
