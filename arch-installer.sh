@@ -75,15 +75,13 @@ if [[ $filesystem = "ext4" ]]; then
 		fi
 	done
 fi
-read
-#sleep 1s
-#clear
+sleep 1s
+clear
 
 # Install base system
 pacstrap -K /mnt ${cpu}-ucode base base-devel linux linux-firmware
-read
-#sleep 1s
-#clear
+sleep 1s
+clear
 
 # Congifure /mnt/etc/fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -102,6 +100,6 @@ swapoff -a
 
 # Reboot
 echo "Installation complete!"
-#echo "Rebooting in 5s"
-#sleep 5s
-#reboot
+echo "Rebooting in 5s"
+sleep 5s
+reboot
