@@ -56,7 +56,7 @@ passwd root
 # Bootloader
 # GNU GRUB
 if [[ $bootloader = "grub" ]]; then
-	grub-install --efi-directory=/efi --bootloader-id=GRUB
+    grub-install --efi-directory=/efi --bootloader-id=GRUB
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 # systemd-boot
@@ -69,7 +69,6 @@ if [[ $bootloader = "systemd-boot" ]]; then
     fi
     echo -e "title\t${bootentry}" > /boot/loader/entries/arch.conf
     echo -e "linux\t/vmlinuz-linux" >> /boot/loader/entries/arch.conf
-    echo -e "initrd\t/${cpu}-ucode.img" >> /boot/loader/entries/arch.conf
     echo -e "initrd\t/initramfs-linux.img" >> /boot/loader/entries/arch.conf
     echo -e "options root=PARTUUID=$(blkid -s PARTUUID -o value $(findroot)) rw" >> /boot/loader/entries/arch.conf
 fi
