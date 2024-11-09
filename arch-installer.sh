@@ -79,7 +79,7 @@ sleep 1s
 clear
 
 # Install base system
-pacstrap -K /mnt ${cpu}-ucode base base-devel linux linux-firmware
+pacstrap -K /mnt base base-devel linux linux-firmware
 sleep 1s
 clear
 
