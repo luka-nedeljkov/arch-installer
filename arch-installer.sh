@@ -89,7 +89,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # Prepare chroot
 cp arch-installer.conf /mnt/arch-installer.conf
 cp chroot.sh /mnt/chroot.sh
-arch-chroot /mnt ./chroot.sh
+arch-chroot -S /mnt ./chroot.sh
 
 # Unmount and reboot
 echo "Unmounting all drives"
